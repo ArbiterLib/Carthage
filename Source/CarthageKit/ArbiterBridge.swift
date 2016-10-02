@@ -92,9 +92,15 @@ extension VersionSpecifier {
       return Arbiter.Requirement(Specifier.Exactly(version.toArbiter()))
 
     case let .GitReference(commitish):
+      return Arbiter.Requirement(Specifier.Any)
+      /*
+      TODO: This needs a rework in Arbiter, because as written here, the requirement is never satisfied
+      (consider commitishes specified here, but which get expanded into full commit hashes during lookup)
+
       let pinnedVersion = PinnedVersion(commitish)
       let unversionedSpecifier = Specifier.Unversioned(ArbiterValueBox<PinnedVersion>(pinnedVersion).toUserValue())
-      return Arbiter.Requirement(Specifier.Prioritized(unversionedSpecifier, -10))
+      return Arbiter.Requirement(Specifier.Prioritized(unversionedSpecifier, 10))
+      */
     }
   }
 }
