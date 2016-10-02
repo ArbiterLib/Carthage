@@ -96,3 +96,31 @@ extension VersionSpecifier {
     }
   }
 }
+
+func dependencyToArbiter(dependency: Dependency<VersionSpecifier>) -> Arbiter.Dependency<ArbiterValueBox<ProjectIdentifier>> {
+  return Arbiter.Dependency(project: dependency.project.toArbiter(), requirement: dependency.version.toArbiter())
+}
+
+func dependencyFromArbiter(dependency: Arbiter.ResolvedDependency<ArbiterValueBox<ProjectIdentifier>, ArbiterValueBox<PinnedVersion>>) -> Dependency<PinnedVersion> {
+  let project = ProjectIdentifier.fromArbiter(dependency.project)
+  let version = PinnedVersion.fromArbiter(dependency.version)
+  return Dependency(project: project, version: version)
+}
+
+extension Cartfile {
+  typealias ArbiterType = Arbiter.DependencyList<ArbiterValueBox<ProjectIdentifier>>
+
+  func toArbiter() -> ArbiterType {
+    return Arbiter.DependencyList(dependencies.map(dependencyToArbiter))
+  }
+}
+
+extension ResolvedCartfile {
+  typealias ArbiterType = Arbiter.ResolvedDependencyInstaller<ArbiterValueBox<ProjectIdentifier>, ArbiterValueBox<PinnedVersion>>
+
+  static func fromArbiter(x: ArbiterType) -> ResolvedCartfile {
+    return ResolvedCartfile(dependencies: x.phases.flatMap { phase in
+      return phase.map(dependencyFromArbiter)
+    })
+  }
+}
