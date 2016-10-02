@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Carthage. All rights reserved.
 //
 
+import Arbiter
 import Foundation
 import ReactiveCocoa
 import ReactiveTask
@@ -81,6 +82,8 @@ public enum CarthageError: ErrorType, Equatable {
 
 	/// An error occurred while shelling out.
 	case TaskError(ReactiveTask.TaskError)
+
+	case ResolverError(ArbiterError)
 }
 
 private func == (lhs: CarthageError.VersionRequirement, rhs: CarthageError.VersionRequirement) -> Bool {
@@ -137,6 +140,9 @@ public func == (lhs: CarthageError, rhs: CarthageError) -> Bool {
 	
 	case let (.TaskError(left), .TaskError(right)):
 		return left == right
+	
+	case let (.ResolverError(left), .ResolverError(right)):
+		return left.description == right.description
 	
 	default:
 		return false
@@ -263,6 +269,9 @@ extension CarthageError: CustomStringConvertible {
 
 		case let .TaskError(taskError):
 			return taskError.description
+
+		case let .ResolverError(error):
+			return error.description
 		}
 	}
 }

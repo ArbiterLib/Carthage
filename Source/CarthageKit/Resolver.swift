@@ -69,16 +69,16 @@ public struct Resolver {
 			// TODO: We need the project identifier in the metadata for this
 			// to work
 			selectedVersionForMetadata: nil)
-
-		// TODO: Swift bindings need a way to actually run the resolver…
-		let graphPtr = ArbiterResolverCreateResolvedDependencyGraph(resolver.pointer, nil)
-		if graphPtr == nil {
-			// TODO: Real error message
+		
+		do {
+			let graph = try resolver.resolve()
+			let resolved = ResolvedCartfile.fromArbiter(graph)
+			return SignalProducer(values: resolved.dependencies)
+		} catch let ex as ArbiterError {
+			return SignalProducer(error: CarthageError.ResolverError(ex))
+		} catch {
+			// TODO: Use a better error message #ErrorType
 			return SignalProducer(error: CarthageError.UnresolvedDependencies(cartfile.dependencies.map { $0.project.name }))
 		}
-
-		let graph = ResolvedDependencyGraph<ArbiterValueBox<ProjectIdentifier>, ArbiterValueBox<PinnedVersion>>(graphPtr, shouldCopy: false)
-		let resolved = ResolvedCartfile.fromArbiter(graph)
-		return SignalProducer(values: resolved.dependencies)
 	}
 }
