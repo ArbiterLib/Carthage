@@ -66,9 +66,19 @@ public struct Resolver {
 				let pinnedVersions = try results.dematerialize()
 				return SelectedVersionList<ArbiterValueBox<PinnedVersion>>(pinnedVersions.map { $0.toArbiter() })
 			},
-			// TODO: We need the project identifier in the metadata for this
-			// to work
-			selectedVersionForMetadata: nil)
+			selectedVersionForMetadata: { resolver, arbiterProject, arbiterMetadata in
+				let project = ProjectIdentifier.fromArbiter(arbiterProject)
+				let pinnedVersion: PinnedVersion = arbiterMetadata.unbox
+
+				guard let result = self.resolvedGitReference(project, pinnedVersion.commitish)
+					.startOn(QueueScheduler(qos: QOS_CLASS_DEFAULT, name: "org.carthage.CarthageKit.Resolver.selectedVersionForMetadata"))
+					.first() else {
+					return nil
+				}
+
+				let resolvedVersion = try? result.dematerialize()
+				return resolvedVersion?.toArbiter()
+			})
 		
 		do {
 			let graph = try resolver.resolve()

@@ -91,9 +91,10 @@ extension VersionSpecifier {
     case let .Exactly(version):
       return Arbiter.Requirement(Specifier.Exactly(version.toArbiter()))
 
-    case .GitReference:
-      // TODO: Use an unversioned or custom requirement with higher priority
-      return Arbiter.Requirement(Specifier.Any)
+    case let .GitReference(commitish):
+      let pinnedVersion = PinnedVersion(commitish)
+      let unversionedSpecifier = Specifier.Unversioned(ArbiterValueBox<PinnedVersion>(pinnedVersion).toUserValue())
+      return Arbiter.Requirement(Specifier.Prioritized(unversionedSpecifier, -10))
     }
   }
 }
