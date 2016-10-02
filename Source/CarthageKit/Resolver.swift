@@ -46,9 +46,11 @@ public struct Resolver {
 				let project = ProjectIdentifier.fromArbiter(arbiterProject)
 				let pinnedVersion = PinnedVersion.fromArbiter(arbiterVersion)
 
-				let result = self.cartfileForDependency(Dependency<PinnedVersion>(project: project, version: pinnedVersion))
+				guard let result = self.cartfileForDependency(Dependency<PinnedVersion>(project: project, version: pinnedVersion))
 					.startOn(QueueScheduler(qos: QOS_CLASS_DEFAULT, name: "org.carthage.CarthageKit.Resolver.listDependencies"))
-					.single()!
+					.first() else {
+					return Arbiter.DependencyList([])
+				}
 
 				let cartfile = try result.dematerialize()
 				return cartfile.toArbiter()
@@ -59,7 +61,7 @@ public struct Resolver {
 				let results = self.versionsForDependency(project)
 					.startOn(QueueScheduler(qos: QOS_CLASS_DEFAULT, name: "org.carthage.CarthageKit.Resolver.listAvailableVersions"))
 					.collect()
-					.single()!
+					.first() ?? Result(value: [])
 
 				let pinnedVersions = try results.dematerialize()
 				return SelectedVersionList<ArbiterValueBox<PinnedVersion>>(pinnedVersions.map { $0.toArbiter() })
