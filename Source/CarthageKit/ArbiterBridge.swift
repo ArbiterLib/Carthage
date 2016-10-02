@@ -91,7 +91,7 @@ extension VersionSpecifier {
       return Arbiter.Requirement(Specifier.Exactly(version.toArbiter()))
 
     case .GitReference:
-      // I know, "wat?"--but this matches VersionSpecifier.satisfiedBy()
+      // TODO: Use an unversioned or custom requirement with higher priority
       return Arbiter.Requirement(Specifier.Any)
     }
   }
