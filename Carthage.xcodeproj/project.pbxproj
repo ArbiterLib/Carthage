@@ -57,6 +57,7 @@
 		D0A2025E1B114D1000C71375 /* ProducerQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A2025D1B114D1000C71375 /* ProducerQueue.swift */; };
 		D0A397201DA14C7100A0CECC /* Arbiter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A3971F1DA14C7100A0CECC /* Arbiter.framework */; };
 		D0A397221DA14C8000A0CECC /* Arbiter.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = D0A3971F1DA14C7100A0CECC /* Arbiter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D0A397241DA14D7400A0CECC /* ArbiterBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A397231DA14D7400A0CECC /* ArbiterBridge.swift */; };
 		D0AAAB4A19FAEDB4007B24B3 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AAAB4919FAEDB4007B24B3 /* Errors.swift */; };
 		D0AAAB5019FB0960007B24B3 /* CarthageKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D0D1216D19E87B05005E4BAA /* CarthageKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D0AAAB5519FB1062007B24B3 /* TestCartfile in Resources */ = {isa = PBXBuildFile; fileRef = D0AAAB5419FB1062007B24B3 /* TestCartfile */; };
@@ -206,6 +207,7 @@
 		D095BA3B1A187D40007F15D6 /* Bootstrap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bootstrap.swift; sourceTree = "<group>"; };
 		D0A2025D1B114D1000C71375 /* ProducerQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProducerQueue.swift; sourceTree = "<group>"; };
 		D0A3971F1DA14C7100A0CECC /* Arbiter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Arbiter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0A397231DA14D7400A0CECC /* ArbiterBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArbiterBridge.swift; sourceTree = "<group>"; };
 		D0AAAB4919FAEDB4007B24B3 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		D0AAAB5419FB1062007B24B3 /* TestCartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestCartfile; sourceTree = "<group>"; };
 		D0AAC23F1A14933100060F2E /* Update.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
@@ -437,6 +439,7 @@
 			children = (
 				D0D1217119E87B05005E4BAA /* CarthageKit.h */,
 				3A0472F21C782B4000097EC7 /* Algorithms.swift */,
+				D0A397231DA14D7400A0CECC /* ArbiterBridge.swift */,
 				D069CA231A4E3B2700314A85 /* Archive.swift */,
 				89E80E601C754FFD000F8DCB /* BuildArguments.swift */,
 				CDF9D3701CF1E54200DF5A6F /* BuildOptions.swift */,
@@ -737,6 +740,7 @@
 				D0DE89441A0F2D9B0030A3EC /* Scannable.swift in Sources */,
 				D01D82D71A10160700F0DD94 /* Resolver.swift in Sources */,
 				D074EDC51A049283001DE082 /* FrameworkExtensions.swift in Sources */,
+				D0A397241DA14D7400A0CECC /* ArbiterBridge.swift in Sources */,
 				88ED56D619ECE34900CBF5C4 /* Git.swift in Sources */,
 				D0D1219219E88B8F005E4BAA /* GitHub.swift in Sources */,
 				CDF9D3711CF1E54200DF5A6F /* BuildOptions.swift in Sources */,
