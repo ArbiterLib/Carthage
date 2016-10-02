@@ -1,3 +1,4 @@
+github "ArbiterLib/Arbiter" "d45bb9b7c5f11a9ed1071fdde5b4e3738b70607b"
 github "thoughtbot/Argo" "v3.1.0"
 github "thoughtbot/Curry" "v2.3.3"
 github "Quick/Nimble" "188caeb094bc342614d8a5c706cd8bb9a6c355eb"
