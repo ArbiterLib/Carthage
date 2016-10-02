@@ -116,10 +116,12 @@ extension Cartfile {
 }
 
 extension ResolvedCartfile {
-  typealias ArbiterType = Arbiter.ResolvedDependencyInstaller<ArbiterValueBox<ProjectIdentifier>, ArbiterValueBox<PinnedVersion>>
+  typealias ArbiterType = Arbiter.ResolvedDependencyGraph<ArbiterValueBox<ProjectIdentifier>, ArbiterValueBox<PinnedVersion>>
 
   static func fromArbiter(x: ArbiterType) -> ResolvedCartfile {
-    return ResolvedCartfile(dependencies: x.phases.flatMap { phase in
+    let installer = Arbiter.ResolvedDependencyInstaller(graph: x)
+
+    return ResolvedCartfile(dependencies: installer.phases.flatMap { phase in
       return phase.map(dependencyFromArbiter)
     })
   }
