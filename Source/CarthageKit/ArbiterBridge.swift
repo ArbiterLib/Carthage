@@ -1,6 +1,6 @@
 import Arbiter
 
-class ArbiterValueBox<T: Comparable where T: Hashable>: ArbiterValue {
+class ArbiterValueBox<T: Comparable where T: Hashable>: ArbiterValue, CustomStringConvertible {
   init(_ value: T) {
     self.unbox = value
   }
@@ -9,6 +9,10 @@ class ArbiterValueBox<T: Comparable where T: Hashable>: ArbiterValue {
 
   var hashValue: Int {
     return unbox.hashValue
+  }
+
+  var description: String {
+    return "\(unbox)"
   }
 }
 
