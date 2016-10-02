@@ -37,8 +37,7 @@ public struct Resolver {
 	/// Sends each recursive dependency with its resolved version, in the order
 	/// that they should be built.
 	public func resolveDependenciesInCartfile(cartfile: Cartfile, lastResolved: ResolvedCartfile? = nil, dependenciesToUpdate: [String]? = nil) -> SignalProducer<Dependency<PinnedVersion>, CarthageError> {
-		precondition(lastResolved == nil, "not yet supported")
-		precondition(dependenciesToUpdate == nil, "not yet supported")
+		// TODO: Use lastResolved and dependenciesToUpdate
 
 		let resolver = Arbiter.Resolver<ArbiterValueBox<ProjectIdentifier>, ArbiterValueBox<PinnedVersion>>(
 			initialGraph: nil,
