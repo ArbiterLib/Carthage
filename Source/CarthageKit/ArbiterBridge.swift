@@ -109,6 +109,10 @@ func dependencyToArbiter(dependency: Dependency<VersionSpecifier>) -> Arbiter.De
   return Arbiter.Dependency(project: dependency.project.toArbiter(), requirement: dependency.version.toArbiter())
 }
 
+func dependencyToArbiter(dependency: Dependency<PinnedVersion>) -> Arbiter.ResolvedDependency<ArbiterValueBox<ProjectIdentifier>, ArbiterValueBox<PinnedVersion>> {
+  return Arbiter.ResolvedDependency(project: dependency.project.toArbiter(), version: dependency.version.toArbiter())
+}
+
 func dependencyFromArbiter(dependency: Arbiter.ResolvedDependency<ArbiterValueBox<ProjectIdentifier>, ArbiterValueBox<PinnedVersion>>) -> Dependency<PinnedVersion> {
   let project = ProjectIdentifier.fromArbiter(dependency.project)
   let version = PinnedVersion.fromArbiter(dependency.version)

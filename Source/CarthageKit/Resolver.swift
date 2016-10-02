@@ -37,10 +37,31 @@ public struct Resolver {
 	/// Sends each recursive dependency with its resolved version, in the order
 	/// that they should be built.
 	public func resolveDependenciesInCartfile(cartfile: Cartfile, lastResolved: ResolvedCartfile? = nil, dependenciesToUpdate: [String]? = nil) -> SignalProducer<Dependency<PinnedVersion>, CarthageError> {
-		// TODO: Use lastResolved and dependenciesToUpdate
+		var initialGraph: ResolvedDependencyGraph<ArbiterValueBox<ProjectIdentifier>, ArbiterValueBox<PinnedVersion>>? = nil
+		if let lastResolved = lastResolved, let dependenciesToUpdate = dependenciesToUpdate where !dependenciesToUpdate.isEmpty {
+			initialGraph = ResolvedDependencyGraph()
+
+			for dependency in lastResolved.dependencies {
+				if dependenciesToUpdate.indexOf(dependency.project.name) != nil {
+					continue
+				}
+
+				do {
+					// It's a bit odd to re-add everything as a root, but
+					// Cartfile.resolved doesn't have edge information, and we
+					// don't actually need it here anyways.
+					try initialGraph?.addRoot(dependencyToArbiter(dependency), requirement: Arbiter.Requirement(Specifier.Any))
+				} catch let ex as ArbiterError {
+					return SignalProducer(error: CarthageError.ResolverError(ex))
+				} catch {
+					// TODO: Use a better error message #ErrorType
+					return SignalProducer(error: CarthageError.UnresolvedDependencies([ dependency.project.name ]))
+				}
+			}
+		}
 
 		let resolver = Arbiter.Resolver<ArbiterValueBox<ProjectIdentifier>, ArbiterValueBox<PinnedVersion>>(
-			initialGraph: nil,
+			initialGraph: initialGraph,
 			dependenciesToResolve: cartfile.toArbiter(),
 			listDependencies: { resolver, arbiterProject, arbiterVersion in
 				let project = ProjectIdentifier.fromArbiter(arbiterProject)
