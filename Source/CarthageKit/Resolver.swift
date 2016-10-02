@@ -64,7 +64,7 @@ public struct Resolver {
 					.first() ?? Result(value: [])
 
 				let pinnedVersions = try results.dematerialize()
-				return SelectedVersionList<ArbiterValueBox<PinnedVersion>>(pinnedVersions.flatMap { $0.toArbiter() })
+				return SelectedVersionList<ArbiterValueBox<PinnedVersion>>(pinnedVersions.map { $0.toArbiter() })
 			},
 			// TODO: We need the project identifier in the metadata for this
 			// to work

@@ -60,14 +60,9 @@ extension SemanticVersion {
 extension PinnedVersion {
   typealias ArbiterType = Arbiter.SelectedVersion<ArbiterValueBox<PinnedVersion>>
 
-  func toArbiter() -> ArbiterType? {
-    // FIXME: Arbiter actually allows this to be nil, but the Swift bindings
-    // haven't been updated accordingly
-    guard let semVer = try? SemanticVersion.fromPinnedVersion(self).dematerialize() else {
-      return nil
-    }
-
-    return Arbiter.SelectedVersion(semanticVersion: semVer.toArbiter(), metadata: ArbiterValueBox(self))
+  func toArbiter() -> ArbiterType {
+    let semVer = try? SemanticVersion.fromPinnedVersion(self).dematerialize()
+    return Arbiter.SelectedVersion(semanticVersion: semVer?.toArbiter(), metadata: ArbiterValueBox(self))
   }
 
   static func fromArbiter(x: ArbiterType) -> PinnedVersion {
