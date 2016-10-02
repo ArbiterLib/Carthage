@@ -1,5 +1,15 @@
 import Arbiter
 
+// This file contains internal utilities for bridging between CarthageKit's
+// public API and the use of Arbiter as an implementation detail.
+//
+// Even though Arbiter may offer richer features in some cases, we avoid them
+// when necessary in favor of backwards compatibility for Carthage.
+
+/**
+ * Used to give identity to CarthageKit value types, so they can be associated
+ * with Arbiter data types.
+ */
 class ArbiterValueBox<T: Comparable where T: Hashable>: ArbiterValue, CustomStringConvertible {
   init(_ value: T) {
     self.unbox = value
@@ -24,6 +34,9 @@ func <<T: Comparable>(lhs: ArbiterValueBox<T>, rhs: ArbiterValueBox<T>) -> Bool 
   return lhs.unbox < rhs.unbox
 }
 
+/**
+ * Extends PinnedVersion with the requirements needed for ArbiterValueBox.
+ */
 extension PinnedVersion: Hashable, Comparable {
   public var hashValue: Int {
     return commitish.hashValue
@@ -31,7 +44,7 @@ extension PinnedVersion: Hashable, Comparable {
 }
 
 public func <(lhs: PinnedVersion, rhs: PinnedVersion) -> Bool {
-	return lhs.commitish < rhs.commitish
+  return lhs.commitish < rhs.commitish
 }
 
 extension ProjectIdentifier {
