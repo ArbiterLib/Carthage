@@ -47,10 +47,9 @@ public struct Resolver {
 				}
 
 				do {
-					// It's a bit odd to re-add everything as a root, but
 					// Cartfile.resolved doesn't have edge information, and we
 					// don't actually need it here anyways.
-					try initialGraph?.addRoot(dependencyToArbiter(dependency), requirement: Arbiter.Requirement(Specifier.Any))
+					try initialGraph?.addNode(dependencyToArbiter(dependency), requirement: Arbiter.Requirement(Specifier.Any))
 				} catch let ex as ArbiterError {
 					return SignalProducer(error: CarthageError.ResolverError(ex))
 				} catch {
