@@ -31,3 +31,6 @@
 [submodule "Carthage/Checkouts/Tentacle"]
 	path = Carthage/Checkouts/Tentacle
 	url = https://github.com/mdiep/Tentacle.git
+[submodule "Carthage/Checkouts/Arbiter"]
+	path = Carthage/Checkouts/Arbiter
+	url = https://github.com/ArbiterLib/Arbiter.git
